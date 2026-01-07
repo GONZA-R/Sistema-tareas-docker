@@ -17,6 +17,9 @@ export default function TaskDetailModal({ open, onClose, task, onUpdate }) {
   const [confirmOpen, setConfirmOpen] = useState(false);
   const [attachmentToDelete, setAttachmentToDelete] = useState(null);
 
+  const [showAttachmentInfo, setShowAttachmentInfo] = useState(false);
+
+
   useEffect(() => {
     if (!task) return;
 
@@ -248,10 +251,44 @@ export default function TaskDetailModal({ open, onClose, task, onUpdate }) {
 
           {/* ATTACHMENTS */}
           <div className="border rounded-2xl p-2 bg-gray-50 text-sm">
-            <div className="flex items-center gap-2 mb-2">
+            <div className="relative flex items-center gap-2 mb-2">
               <Paperclip size={14} />
-              <p className="font-medium text-gray-700">Archivos adjuntos</p>
+              <p className="font-medium text-gray-700">
+                Archivos adjuntos
+              </p>
+
+              {/* ICONO INFO */}
+              <button
+                type="button"
+                onClick={() => setShowAttachmentInfo((prev) => !prev)}
+                className="text-gray-400 hover:text-gray-600 transition"
+                title="Ver información"
+              >
+                ⓘ
+              </button>
+
+              {/* TOOLTIP CLICK */}
+              {showAttachmentInfo && (
+                <div
+                  className="
+                    absolute top-full left-0 mt-1
+                    w-64
+                    rounded-xl bg-gray-900 text-white text-xs
+                    px-3 py-2
+                    z-50
+                  "
+                >
+                  <p className="font-semibold mb-1">Formatos permitidos:</p>
+                  <p>
+                    PDF, DOCX, XLSX, PPTX, JPG, PNG, WEBP, ZIP, RAR, CSV
+                  </p>
+                  <p className="mt-1">
+                    <strong>Tamaño máximo:</strong> 15 MB
+                  </p>
+                </div>
+              )}
             </div>
+
 
             {attachments.length > 0 ? (
               <ul className="space-y-1 mb-3 max-h-36 overflow-y-auto">

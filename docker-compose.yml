@@ -1,13 +1,28 @@
 version: "3.9"
 
 services:
+  db:
+    image: mysql:8
+    restart: always
+    environment:
+      MYSQL_DATABASE: seguimiento_tareas
+      MYSQL_USER: seguimiento_user
+      MYSQL_PASSWORD: seguimiento_pass
+      MYSQL_ROOT_PASSWORD: root_pass
+    ports:
+      - "3307:3306"
+    volumes:
+      - db_data:/var/lib/mysql
+
   backend:
     build: ./backend
     restart: always
+    depends_on:
+      - db
+    ports:
+      - "8000:8000"
     volumes:
-      - ./backend/db.sqlite3:/app/db.sqlite3
-    expose:
-      - "8000"
+      - ./backend/media:/app/media   # 👈 CLAVE
 
   frontend:
     build: ./frontend
@@ -16,3 +31,8 @@ services:
       - "80:80"
     depends_on:
       - backend
+    volumes:
+      - ./backend/media:/app/media   # 👈 CLAVE
+
+volumes:
+  db_data:

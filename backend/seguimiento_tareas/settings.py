@@ -101,8 +101,12 @@ TEMPLATES = [
 # =========================
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'seguimiento_tareas',
+        'USER': 'seguimiento_user',
+        'PASSWORD': 'seguimiento_pass',
+        'HOST': 'db',
+        'PORT': '3306',
     }
 }
 
@@ -186,13 +190,22 @@ CORS_ALLOW_CREDENTIALS = True
 # =========================
 # INTERNATIONALIZATION
 # =========================
-LANGUAGE_CODE = 'en-us'
+"""LANGUAGE_CODE = 'en-us'
 
 TIME_ZONE = 'UTC'
 
 USE_I18N = True
 
 USE_TZ = True
+"""
+
+LANGUAGE_CODE = 'es-ar'
+
+TIME_ZONE = 'America/Argentina/Buenos_Aires'
+
+USE_I18N = True
+USE_TZ = True
+
 
 
 # =========================

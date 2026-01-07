@@ -1,16 +1,26 @@
 import os
 from django.core.exceptions import ValidationError
 
-# Tamaño máximo: 10 MB
-MAX_FILE_SIZE = 10 * 1024 * 1024  # 10 MB
+# Tamaño máximo: 15 MB
+MAX_FILE_SIZE = 15 * 1024 * 1024  # 15 MB
+
 
 # Extensiones permitidas
 ALLOWED_EXTENSIONS = [
+    # Documentos
     '.pdf', '.txt',
     '.doc', '.docx',
     '.xls', '.xlsx',
     '.ppt', '.pptx',
-    '.jpg', '.jpeg', '.png'
+
+    # Imágenes
+    '.jpg', '.jpeg', '.png', '.webp',
+
+    # Comprimidos
+    '.zip', '.rar',
+
+    # Técnicos / datos
+    '.csv', '.json', '.xml', '.log',
 ]
 
 
