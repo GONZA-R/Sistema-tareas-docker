@@ -60,6 +60,11 @@ class Task(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
+
+    # Campos para controlar notificaciones automáticas
+    reminder_due_soon_sent = models.BooleanField(default=False)
+    reminder_expired_sent = models.BooleanField(default=False)
+
     
     #reminder_sent = models.BooleanField(default=False)  # ← nuevo campo
 

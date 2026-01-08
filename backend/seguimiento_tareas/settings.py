@@ -21,7 +21,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = 'django-insecure-099r5nn-=7j@q(4^r84okva#h!3+3c^y^928%nt0-5^1oit(m%'
 
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['*']  # la IP de tu PC servidor
 
@@ -225,6 +225,11 @@ MEDIA_ROOT = BASE_DIR / "media"  # <- opcional, solo si subís archivos
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
+# CELERY
+CELERY_BROKER_URL = "redis://redis:6379/0"
+CELERY_ACCEPT_CONTENT = ["json"]
+CELERY_TASK_SERIALIZER = "json"
+CELERY_RESULT_BACKEND = "redis://redis:6379/0"
 
 
 
