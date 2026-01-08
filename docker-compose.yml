@@ -14,15 +14,50 @@ services:
     volumes:
       - db_data:/var/lib/mysql
 
+  redis:
+    image: redis:7
+    restart: always
+    ports:
+      - "6379:6379"
+
   backend:
     build: ./backend
     restart: always
+    command: gunicorn seguimiento_tareas.wsgi:application --bind 0.0.0.0:8000 --workers 3
     depends_on:
       - db
+      - redis
     ports:
       - "8000:8000"
+    environment:
+      DJANGO_SETTINGS_MODULE: seguimiento_tareas.settings
+      CELERY_BROKER_URL: redis://redis:6379/0
     volumes:
-      - ./backend/media:/app/media   # 👈 CLAVE
+      - ./backend/media:/app/media
+
+  celery:
+    build: ./backend
+    restart: always
+    command: celery -A seguimiento_tareas worker -l info
+    depends_on:
+      - backend
+      - redis
+    environment:
+      DJANGO_SETTINGS_MODULE: seguimiento_tareas.settings
+      CELERY_BROKER_URL: redis://redis:6379/0
+    volumes:
+      - ./backend/media:/app/media
+
+  celery-beat:
+    build: ./backend
+    restart: always
+    command: celery -A seguimiento_tareas beat -l info
+    depends_on:
+      - backend
+      - redis
+    environment:
+      DJANGO_SETTINGS_MODULE: seguimiento_tareas.settings
+      CELERY_BROKER_URL: redis://redis:6379/0
 
   frontend:
     build: ./frontend
@@ -32,7 +67,9 @@ services:
     depends_on:
       - backend
     volumes:
-      - ./backend/media:/app/media   # 👈 CLAVE
+      - ./backend/media:/app/media
 
 volumes:
   db_data:
+
+
