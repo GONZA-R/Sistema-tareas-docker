@@ -17,3 +17,6 @@ app.conf.beat_schedule = {
         'schedule': 10
     },
 }
+
+
+#eeeeeeeS
